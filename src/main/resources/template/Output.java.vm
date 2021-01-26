@@ -1,0 +1,65 @@
+package ${package}.${moduleName}.dto;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasDate})
+import java.util.Date;
+#end
+
+import cn.gigahome.common.IBaseDto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@ApiModel(value="${moduleName}.${className}Dto", description="${comments}")
+public class ${className}Dto implements IBaseDto {
+
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if($column.columnName != 'tenant_id' && $column.columnName != 'deleted' && $column.columnName != 'password')
+	/**
+	 * $column.comments
+	 */
+#if($column.dataType == 'datetime' || $column.dataType == 'timestamp')
+#if($column.nullable == 'NO' && !$column.columnDefault)
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "2019-01-01 09:01:01")
+#else
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01 09:01:01")
+#end
+#elseif($column.dataType == 'time')
+#if($column.nullable == 'NO' && !$column.columnDefault)
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "09:01:01")
+#else
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "09:01:01")
+#end
+#elseif($column.dataType == 'date')
+#if($column.nullable == 'NO' && !$column.columnDefault)
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "2019-01-01")
+#else
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01")
+#end
+#else
+#if($column.nullable == 'NO' && !$column.columnDefault)
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true)
+#else
+    @ApiModelProperty(value = "$column.comments", name = "$column.attrname")
+#end
+#end
+	private $column.attrType $column.attrname;
+
+#end
+#end
+}

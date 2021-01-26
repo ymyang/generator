@@ -1,0 +1,104 @@
+package ${package}.${moduleName}.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+#if(${cacheAnnotation}==true)
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+#end
+import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.param.${className}CreateParam;
+import ${package}.${moduleName}.param.${className}QueryParam;
+import ${package}.${moduleName}.param.${className}UpdateParam;
+import ${package}.${moduleName}.service.${className}Service;
+import ${package}.common.exception.BusinessException;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Service("${classname}Service")
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements ${className}Service {
+
+	@Override
+	public IPage<${className}Entity> page(${className}QueryParam param) {
+		IPage<${className}Entity> page = new Page<>(param.getPageIndex(), param.getPageSize());
+		${className}Entity entity = new ${className}Entity();
+		BeanUtils.copyProperties(param, entity);
+		QueryWrapper<${className}Entity> wrapper = Wrappers.query(entity);
+
+		return page(page, wrapper);
+	}
+
+#if(${cacheAnnotation}==true)
+	@Cacheable(value = "${moduleName}_${pathName}", key = "#${pk.attrname}")
+#end
+	@Override
+	public ${className}Entity get(${pk.attrType} ${pk.attrname}) {
+		return getById(${pk.attrname});
+	}
+
+	@Override
+	public ${className}Entity create(${className}CreateParam param) {
+		${className}Entity entity = new ${className}Entity();
+		BeanUtils.copyProperties(param, entity);
+
+		boolean f = save(entity);
+
+		if (!f) {
+			throw new BusinessException("创建失败");
+		}
+
+		return entity;
+	}
+
+#if(${cacheAnnotation}==true)
+	@CacheEvict(value = "${moduleName}_${pathName}", key = "#param.${pk.attrname}", beforeInvocation = true)
+#end
+	@Override
+	public ${className}Entity update(${className}UpdateParam param) {
+		${className}Entity entity = getById(param.getId());
+		if (entity == null) {
+			throw new BusinessException("未查询到此对象");
+		}
+
+		BeanUtils.copyProperties(param, entity);
+		boolean f = updateById(entity);
+
+		if (!f) {
+			throw new BusinessException("修改失败");
+		}
+
+		return entity;
+	}
+
+#if(${cacheAnnotation}==true)
+	@CacheEvict(value = "${moduleName}_${pathName}", allEntries = true, beforeInvocation = true)
+#end
+	@Override
+	public boolean delete(List<${pk.attrType}> ${pk.attrname}s) {
+		return removeByIds(${pk.attrname}s);
+	}
+
+#if(${cacheAnnotation}==true)
+	@CacheEvict(value = "${moduleName}_${pathName}", key = "#${pk.attrname}", beforeInvocation = true)
+#end
+	@Override
+	public boolean delete(${pk.attrType} ${pk.attrname}) {
+		return removeById(${pk.attrname});
+	}
+
+}

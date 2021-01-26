@@ -1,0 +1,81 @@
+package ${package}.${moduleName}.param;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasDate})
+import java.util.Date;
+#end
+
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
+
+import cn.gigahome.common.IBaseDto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@ApiModel(value = "${moduleName}.${className}CreateParam", description = "${comments}")
+public class ${className}CreateParam implements IBaseDto {
+
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if($column.columnName != $pk.columnName && $column.columnName != 'tenant_id' && $column.columnName != 'path_ids' && $column.columnName != 'deleted' && $column.columnName != 'create_time' && $column.columnName != 'creator_id' && $column.columnName != 'creator_name' && $column.columnName != 'modify_time' && $column.columnName != 'modifier_id' && $column.columnName != 'modifier_name')
+	/**
+	 * $column.comments
+	 */
+#if($column.columnName == $pk.columnName)
+	@NotNull(groups = ${className}CreateParam.Create.class, message = "$column.comments 不能为空")
+#elseif($column.nullable == 'NO' && !$column.columnDefault)
+	@NotNull(message = "$column.comments 不能为空")
+#if($column.characterMaximumLength)
+	@Length(min = 1, max = $column.characterMaximumLength, message = "$column.comments 长度需要在1和${column.characterMaximumLength}之间")
+#end
+#end
+#if($column.dataType == 'datetime' || $column.dataType == 'timestamp')
+#if($column.nullable == 'NO' && !$column.columnDefault)
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "2019-01-01 09:01:01")
+#else
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01 09:01:01")
+#end
+#elseif($column.dataType == 'time')
+#if($column.nullable == 'NO' && !$column.columnDefault)
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "09:01:01")
+#else
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "09:01:01")
+#end
+#elseif($column.dataType == 'date')
+#if($column.nullable == 'NO' && !$column.columnDefault)
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "2019-01-01")
+#else
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01")
+#end
+#else
+#if($column.nullable == 'NO' && !$column.columnDefault)
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true)
+#else
+	@ApiModelProperty(value = "$column.comments", name = "$column.attrname")
+#end
+#end
+	private $column.attrType $column.attrname;
+
+#end
+#end
+
+	// 分组表单验证
+	public interface Create extends Default {}
+
+}

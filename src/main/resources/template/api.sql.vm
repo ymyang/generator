@@ -1,0 +1,14 @@
+INSERT INTO `t_api_define` (`code`, `name`, `method`, `url`, `system`, `module`, `create_time`, `modify_time`)
+	VALUES ('${moduleName}_${pathName}_list', '${comments}列表', 'get', '/${moduleName}/${pathName}/list', '', '${moduleName}', NOW(), NOW());
+
+INSERT INTO `t_api_define` (`code`, `name`, `method`, `url`, `system`, `module`, `create_time`, `modify_time`)
+	VALUES ('${moduleName}_${pathName}_detail', '${comments}详情', 'get', '/${moduleName}/${pathName}', '', '${moduleName}', NOW(), NOW());
+
+INSERT INTO `t_api_define` (`code`, `name`, `method`, `url`, `system`, `module`, `create_time`, `modify_time`)
+	VALUES ('${moduleName}_${pathName}_create', '${comments}添加', 'post', '/${moduleName}/${pathName}', '', '${moduleName}', NOW(), NOW());
+
+INSERT INTO `t_api_define` (`code`, `name`, `method`, `url`, `system`, `module`, `create_time`, `modify_time`)
+	VALUES ('${moduleName}_${pathName}_update', '${comments}修改', 'put', '/${moduleName}/${pathName}', '', '${moduleName}', NOW(), NOW());
+
+INSERT INTO `t_api_define` (`code`, `name`, `method`, `url`, `system`, `module`, `create_time`, `modify_time`)
+	VALUES ('${moduleName}_${pathName}_delete', '${comments}删除', 'post', '/${moduleName}/${pathName}/delete', '', '${moduleName}', NOW(), NOW());

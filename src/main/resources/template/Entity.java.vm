@@ -1,0 +1,59 @@
+package ${package}.${moduleName}.entity;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasDate})
+import java.util.Date;
+#end
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import cn.gigahome.common.IBaseDto;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@TableName("${tableName}")
+public class ${className}Entity implements IBaseDto {
+
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+	/**
+	 * $column.comments
+	 */
+#if($column.columnName == $pk.columnName)
+#if($column.extra == 'auto_increment')
+	@TableId(type = IdType.AUTO)
+#else
+	@TableId
+#end
+#end
+#if($column.columnName == 'deleted')
+	@TableLogic
+#end
+#if($column.columnName == 'create_time' || $column.columnName == 'creator_id' || $column.columnName == 'creator_name')
+	@TableField(fill = FieldFill.INSERT)
+#end
+#if($column.columnName == 'modify_time' || $column.columnName == 'modifier_id' || $column.columnName == 'modifier_name')
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+#end
+	private $column.attrType $column.attrname;
+
+#end
+}
