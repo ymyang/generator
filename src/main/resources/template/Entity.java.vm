@@ -1,11 +1,4 @@
-package ${package}.${moduleName}.entity;
-
-#if(${hasBigDecimal})
-import java.math.BigDecimal;
-#end
-#if(${hasDate})
-import java.util.Date;
-#end
+package ${config.basePackageName}.entity.${moduleName};
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -14,10 +7,22 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import cn.gigahome.common.IBaseDto;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasLocalDate})
+import java.time.LocalDate;
+#end
+#if(${hasLocalTime})
+import java.time.LocalTime;
+#end
+import lombok.*;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.example.framework.common.PojoDuplicate;
+import org.example.framework.mybatisplus.BaseModel;
 
 /**
  * ${comments}
@@ -26,10 +31,14 @@ import lombok.NoArgsConstructor;
  * @email ${email}
  * @date ${datetime}
  */
-@Data
+@TableName(value = "${tableName}", autoResultMap = true)
+@Getter
+@Setter
+@Builder
+@ToString
 @NoArgsConstructor
-@TableName("${tableName}")
-public class ${className}Entity implements IBaseDto {
+@AllArgsConstructor
+public class ${className}Entity extends BaseModel<${className}Entity> implements PojoDuplicate {
 
 	private static final long serialVersionUID = 1L;
 

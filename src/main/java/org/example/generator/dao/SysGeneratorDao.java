@@ -1,4 +1,4 @@
-package com.ymyang.generator.dao;
+package org.example.generator.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

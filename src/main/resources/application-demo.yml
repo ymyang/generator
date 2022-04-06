@@ -1,0 +1,68 @@
+
+# mysql逆向生成
+generator:
+
+  # 作者，会标注接口文档的负责人
+  author: example
+
+  # 邮箱
+  email: example@163.com
+
+  # 当前应用的微服务应用名，会标注在Feign Client上
+  applicationName: spring-boot-example
+
+  # 是否文件覆盖
+  overwrite: false
+
+  # 控制器增加shiro权限注解
+  shiroAnnotation: true
+
+  # 程序包路径
+  basePackageName: org.example
+
+  # 控制器所属modules绝对路径，若path和packageName为空时，则不生成，最终目录：${controllerPath}/src/main/java/${basePackageName}/controller/${modulesName}
+  controllerPath: F:/code/generator-test
+
+  # 控制器中的查询参数对象，若path和packageName为空时，则不生成，最终目录：${queryParamPath}/src/main/java/${basePackageName}/param/${modulesName}
+  queryParamPath: F:/code/generator-test
+
+  # 控制器中的新建参数对象，若path和packageName为空时，则不生成，最终目录：${createParamPath}/src/main/java/${basePackageName}/param/${modulesName}
+  createParamPath: F:/code/generator-test
+
+  # 控制器中的更新参数对象，若path和packageName为空时，则不生成，最终目录：${updateParamPath}/src/main/java/${basePackageName}/param/${modulesName}
+  updateParamPath: F:/code/generator-test
+
+  # 控制器中的返回值对象，若path和packageName为空时，则不生成，最终目录：${dtoPath}/src/main/java/${basePackageName}/dto/${modulesName}
+  dtoPath: F:/code/generator-test
+
+  # service所属modules绝对路径，若path和packageName为空时，则不生成，最终目录：${servicePath}/src/main/java/${basePackageName}/service/${modulesName}
+  servicePath: F:/code/generator-test
+
+  # 实体类，若path和packageName为空时，则不生成，最终目录：${entityPath}/src/main/java/${basePackageName}/entity/${modulesName}
+  entityPath: F:/code/generator-test
+
+  # mybatis mapper类，若path和packageName为空时，则不生成，最终目录：${mapperPath}/src/main/java/${basePackageName}/mapper/${modulesName}
+  mapperPath: F:/code/generator-test
+
+  # feign客户端，若path和packageName为空时，则不生成，最终目录：${feignClientPath}/src/main/java/${basePackageName}/feign/${modulesName}
+  feignClientPath:
+
+  # 菜单sql 最终目录：${menuSqlPath}/src/main/resources/sql/${modulesName}
+  menuSqlPath:
+
+  # 表前缀
+  tablePrefix: t_
+
+  # 是否表名复数转单数，默认true转换
+  singularize: true
+
+  modules:
+    # 模块名
+    - name: test
+    # 需要生成的表名列表
+      tables:
+        - t_version
+        #- t_action_log
+      views:
+        #- {name: v_activity_info, comment: 活动}
+        #- {name: v_activity_prize, comment: 活动奖品}

@@ -1,6 +1,6 @@
-package com.ymyang.generator.test;
+package org.example.generator.test;
 
-import com.ymyang.generator.utils.InflectorUtil;
+import org.example.generator.utils.InflectorUtil;
 import org.junit.Test;
 
 public class InflectorUtilTest {

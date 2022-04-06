@@ -1,4 +1,4 @@
-package com.ymyang.generator.config;
+package org.example.generator.config;
 
 import lombok.Data;
 

@@ -1,34 +1,23 @@
-package ${package}.${moduleName}.controller;
+package ${config.basePackageName}.controller.back.${moduleName};
 
-import java.util.List;
+import ${config.basePackageName}.service.${moduleName}.${className}Service;
+import ${config.basePackageName}.param.${moduleName}.${className}QueryParam;
+import ${config.basePackageName}.param.${moduleName}.${className}CreateParam;
+import ${config.basePackageName}.param.${moduleName}.${className}UpdateParam;
+import ${config.basePackageName}.entity.${moduleName}.${className}Entity;
+import ${config.basePackageName}.dto.${moduleName}.${className}Dto;
 
+import org.example.framework.common.ResponseEntity;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 #if(${shiroAnnotation}==true)
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 #end
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-
-import ${package}.${moduleName}.dto.${className}Dto;
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.param.${className}CreateParam;
-import ${package}.${moduleName}.param.${className}QueryParam;
-import ${package}.${moduleName}.param.${className}UpdateParam;
-import ${package}.${moduleName}.service.${className}Service;
-import cn.gigahome.common.ResponseEntity;
-import cn.gigahome.common.web.PageResultDto;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * ${comments}
@@ -37,10 +26,10 @@ import io.swagger.annotations.ApiOperation;
  * @email ${email}
  * @date ${datetime}
  */
-@RestController
-@RequestMapping("/${moduleName}/${pathName}")
-@Api(value = "${comments}", tags = {"${comments}"})
-public class ${className}Controller {
+@Api(value = "${moduleName}.${className}Controller", tags = {"${comments}"})
+@RestController("${moduleName}.Back${className}Controller")
+@RequestMapping("/api/back/${moduleName}/${pathName}")
+public class Back${className}Controller {
 
 	@Autowired
 	private ${className}Service ${classname}Service;
@@ -48,95 +37,92 @@ public class ${className}Controller {
     /**
      * 列表
      */
-    @GetMapping("/list")
-    @ApiOperation("${comments}列表")
+    @ApiOperation(value = "${comments}列表", notes = "作者：${author}")
 #if(${shiroAnnotation}==true)
     @RequiresPermissions("${moduleName}:${pathName}:list")
 #end
-    public ResponseEntity<PageResultDto<${className}Dto>> list(${className}QueryParam param) {
-        IPage<${className}Entity> list = ${classname}Service.page(param);
+    @GetMapping("/list")
+    public ResponseEntity<IPage<${className}Dto>> list(${className}QueryParam param) {
 
-        IPage<${className}Dto> result = list.convert((item) -> {
-            ${className}Dto dto = new ${className}Dto();
-            BeanUtils.copyProperties(item, dto);
-            return dto;
-        });
+        IPage<${className}Entity> pageList = ${classname}Service.page(param);
 
-        return ResponseEntity.success(new PageResultDto<>(result));
+        // 多一步转换操作，因不推荐直接返回Entity
+        IPage<${className}Dto> convert = pageList.convert((item)->item.copyPropertiesTo(new ${className}Dto(), false));
+
+        return ResponseEntity.success(convert);
     }
 
     /**
      * 详情
      */
-    @GetMapping("/{${pk.attrname}}")
-    @ApiOperation("${comments}详情")
+    @ApiOperation(value = "${comments}详情", notes = "作者：${author}")
 #if(${shiroAnnotation}==true)
     @RequiresPermissions("${moduleName}:${pathName}:detail")
 #end
+    @GetMapping("/{${pk.attrname}}")
     public ResponseEntity<${className}Dto> detail(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
-        ${className}Entity entity = ${classname}Service.get(${pk.attrname});
-        if (entity == null) {
-        	return ResponseEntity.error("未查询到此对象");
-        }
 
-        ${className}Dto dto = new ${className}Dto();
-        BeanUtils.copyProperties(entity, dto);
+        ${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
 
-        return ResponseEntity.success(dto);
+        ${className}Dto ${classname}Dto = ${classname}.copyPropertiesTo(new ${className}Dto(), false);
+
+        return ResponseEntity.success(${classname}Dto);
     }
 
     /**
      * 添加
      */
-    @PostMapping("")
-    @ApiOperation("${comments}添加")
+    @ApiOperation(value = "${comments}新增", notes = "作者：${author}")
 #if(${shiroAnnotation}==true)
     @RequiresPermissions("${moduleName}:${pathName}:create")
 #end
-    public ResponseEntity<${className}Dto> create(@Validated({${className}CreateParam.Create.class}) @RequestBody ${className}CreateParam param) {
-		${className}Entity entity = ${classname}Service.create(param);
-		if (entity == null) {
+    @PostMapping("")
+    public ResponseEntity<${className}Dto> create(@Validated @RequestBody ${className}CreateParam param) {
+
+		${className}Entity ${classname}Entity = ${classname}Service.create(param);
+		if (${classname}Entity == null) {
 			return ResponseEntity.error("添加失败");
 		}
 		
-        ${className}Dto dto = new ${className}Dto();
-        BeanUtils.copyProperties(entity, dto);
+        ${className}Dto ${classname}Dto = ${classname}Entity.copyPropertiesTo(new ${className}Dto(), false);
 
-        return ResponseEntity.success(dto);
+        return ResponseEntity.success(${classname}Dto, "添加成功");
+
     }
 
     /**
      * 修改
      */
-    @PutMapping("")
-    @ApiOperation("${comments}修改")
+    @ApiOperation(value = "${comments}修改", notes = "作者：${author}")
 #if(${shiroAnnotation}==true)
     @RequiresPermissions("${moduleName}:${pathName}:update")
 #end
-    public ResponseEntity<${className}Dto> update(@Validated({${className}UpdateParam.Update.class}) @RequestBody ${className}UpdateParam param) {
-		${className}Entity entity = ${classname}Service.update(param);
-		if (entity == null) {
+    @PutMapping("")
+    public ResponseEntity<${className}Dto> update(@Validated @RequestBody ${className}UpdateParam param) {
+		${className}Entity ${classname}Entity = ${classname}Service.update(param);
+		if (${classname}Entity == null) {
 			return ResponseEntity.error("修改失败");
 		}
 
-        ${className}Dto dto = new ${className}Dto();
-        BeanUtils.copyProperties(entity, dto);
+        ${className}Dto ${classname}Dto = ${classname}Entity.copyPropertiesTo(new ${className}Dto(), false);
 
-        return ResponseEntity.success(dto);
+        return ResponseEntity.success(${classname}Dto, "修改成功");
+
     }
 
     /**
      * 删除
      */
-    @PostMapping("/delete")
-    @ApiOperation("${comments}删除")
+    @ApiOperation(value = "${comments}删除", notes = "作者：${author}")
 #if(${shiroAnnotation}==true)
     @RequiresPermissions("${moduleName}:${pathName}:delete")
 #end
-    public ResponseEntity<String> delete(@RequestBody List<${pk.attrType}> ${pk.attrname}s) {
-        ${classname}Service.delete(${pk.attrname}s);
+    @DeleteMapping("/{${pk.attrname}}")
+    public ResponseEntity<String> delete(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
 
-        return ResponseEntity.success();
+        ${classname}Service.removeById(${pk.attrname});
+
+        return ResponseEntity.success("删除成功");
     }
 
 }

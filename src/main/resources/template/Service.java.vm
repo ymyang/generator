@@ -1,14 +1,12 @@
-package ${package}.${moduleName}.service;
+package ${config.basePackageName}.service.${moduleName};
 
-import java.util.List;
+import ${config.basePackageName}.entity.${moduleName}.${className}Entity;
+import ${config.basePackageName}.param.${moduleName}.${className}QueryParam;
+import ${config.basePackageName}.param.${moduleName}.${className}CreateParam;
+import ${config.basePackageName}.param.${moduleName}.${className}UpdateParam;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.param.${className}CreateParam;
-import ${package}.${moduleName}.param.${className}QueryParam;
-import ${package}.${moduleName}.param.${className}UpdateParam;
 
 /**
  * ${comments}
@@ -21,14 +19,8 @@ public interface ${className}Service extends IService<${className}Entity> {
 
 	IPage<${className}Entity> page(${className}QueryParam param);
 
-	${className}Entity get(${pk.attrType} ${pk.attrname});
-
 	${className}Entity create(${className}CreateParam param);
 
 	${className}Entity update(${className}UpdateParam param);
-
-	boolean delete(List<${pk.attrType}> ${pk.attrname}s);
-
-	boolean delete(${pk.attrType} ${pk.attrname});
 }
 

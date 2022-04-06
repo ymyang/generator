@@ -1,7 +1,7 @@
-package com.ymyang.generator;
+package org.example.generator;
 
-import com.ymyang.generator.config.GeneratorConfig;
-import com.ymyang.generator.service.CustomGeneratorService;
+import org.example.generator.config.GeneratorConfig;
+import org.example.generator.service.CustomGeneratorService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

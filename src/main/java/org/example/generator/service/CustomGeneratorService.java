@@ -1,11 +1,11 @@
-package com.ymyang.generator.service;
+package org.example.generator.service;
 
-import com.ymyang.generator.config.GeneratorConfig;
-import com.ymyang.generator.config.Modules;
-import com.ymyang.generator.config.View;
-import com.ymyang.generator.dao.SysGeneratorDao;
-import com.ymyang.generator.utils.GenerationException;
-import com.ymyang.generator.utils.GenerationUtils;
+import org.example.generator.config.GeneratorConfig;
+import org.example.generator.config.Modules;
+import org.example.generator.config.View;
+import org.example.generator.dao.SysGeneratorDao;
+import org.example.generator.utils.GenerationException;
+import org.example.generator.utils.GenerationUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

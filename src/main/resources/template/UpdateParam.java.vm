@@ -1,21 +1,22 @@
-package ${package}.${moduleName}.param;
-
-#if(${hasBigDecimal})
-import java.math.BigDecimal;
-#end
-#if(${hasDate})
-import java.util.Date;
-#end
-
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
-
-import cn.gigahome.common.IBaseDto;
+package ${config.basePackageName}.param.${moduleName};
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+
+import org.example.framework.common.PojoDuplicate;
+
+#if(${hasBigDecimal})
+#end
+#if(${hasLocalDateTime})
+#end
+#if(${hasLocalDate})
+#end
+#if(${hasLocalTime})
+#end
 
 /**
  * ${comments}
@@ -24,9 +25,14 @@ import org.hibernate.validator.constraints.Length;
  * @email ${email}
  * @date ${datetime}
  */
-@Data
+@Getter
+@Setter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "${moduleName}.${className}UpdateParam", description = "${comments}")
-public class ${className}UpdateParam implements IBaseDto {
+public class ${className}UpdateParam implements PojoDuplicate {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +42,7 @@ public class ${className}UpdateParam implements IBaseDto {
 	 * $column.comments
 	 */
 #if($column.columnName == $pk.columnName)
-	@NotNull(groups = ${className}UpdateParam.Update.class, message = "$column.comments 不能为空")
+	@NotNull(message = "$column.comments 不能为空")
 #elseif($column.nullable == 'NO' && !$column.columnDefault)
 	@NotNull(message = "$column.comments 不能为空")
 #if($column.characterMaximumLength)
@@ -45,35 +51,32 @@ public class ${className}UpdateParam implements IBaseDto {
 #end
 #if($column.dataType == 'datetime' || $column.dataType == 'timestamp')
 #if($column.nullable == 'NO' && !$column.columnDefault)
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "2019-01-01 09:01:01")
+	@ApiModelProperty(value = "$column.comments", required = true, example = "2019-01-01 09:01:01")
 #else
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01 09:01:01")
+	@ApiModelProperty(value = "$column.comments", example = "2019-01-01 09:01:01")
 #end
 #elseif($column.dataType == 'time')
 #if($column.nullable == 'NO' && !$column.columnDefault)
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "09:01:01")
+	@ApiModelProperty(value = "$column.comments", required = true, example = "09:01:01")
 #else
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "09:01:01")
+	@ApiModelProperty(value = "$column.comments", example = "09:01:01")
 #end
 #elseif($column.dataType == 'date')
 #if($column.nullable == 'NO' && !$column.columnDefault)
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true, example = "2019-01-01")
+	@ApiModelProperty(value = "$column.comments", required = true, example = "2019-01-01")
 #else
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01")
+	@ApiModelProperty(value = "$column.comments", example = "2019-01-01")
 #end
 #else
 #if($column.nullable == 'NO' && !$column.columnDefault)
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname", required = true)
+	@ApiModelProperty(value = "$column.comments", required = true)
 #else
-	@ApiModelProperty(value = "$column.comments", name = "$column.attrname")
+	@ApiModelProperty(value = "$column.comments")
 #end
 #end
 	private $column.attrType $column.attrname;
 
 #end
 #end
-
-	// 分组表单验证
-	public interface Update extends Default {}
 
 }

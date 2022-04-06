@@ -1,17 +1,17 @@
 -- 菜单SQL
-INSERT INTO `t_sys_menu` (`type`, `parent_id`, `path_ids`, `level`, `name`, `icon`, `code`, `url`, `target`, `permission_code`, `sort_index`, `status`, `deleted`, `create_time`, `creator_id`, `creator_name`, `modify_time`, `modifier_id`, `modifier_name`)
-	VALUES ('menu', '0', '', 2, '${comments}', '', 'menu-${pathName}', '${moduleName}/${pathName}', 'page', '${moduleName}:${pathName}:list', '1', '1', '0', NOW(), '0', 'system', NOW(), '0', 'system');
+
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    VALUES (1, '${comments}', '${moduleName}/${pathName}', NULL, '1', 'config', '6');
 
 -- 按钮父菜单ID
 set @parentId = @@identity;
-set @pathIds = @@identity;
 
 -- 菜单对应按钮SQL
-INSERT INTO `t_sys_menu` (`type`, `parent_id`, `path_ids`, `level`, `name`, `icon`, `code`, `url`, `target`, `permission_code`, `sort_index`, `status`, `deleted`, `create_time`, `creator_id`, `creator_name`, `modify_time`, `modifier_id`, `modifier_name`)
-	SELECT 'button', @parentId, @pathIds, 3, '查看', 'info', 'btn-${pathName}-detail', '${moduleName}/${pathName}/detail', 'window', '${moduleName}:${pathName}:detail', '1', '1', '0', NOW(), '0', 'system', NOW(), '0', 'system';
-INSERT INTO `t_sys_menu` (`type`, `parent_id`, `path_ids`, `level`, `name`, `icon`, `code`, `url`, `target`, `permission_code`, `sort_index`, `status`, `deleted`, `create_time`, `creator_id`, `creator_name`, `modify_time`, `modifier_id`, `modifier_name`)
-	SELECT 'button', @parentId, @pathIds, 3, '新增', 'plux', 'btn-${pathName}-create', '${moduleName}/${pathName}/create', 'window', '${moduleName}:${pathName}:create', '2', '1', '0', NOW(), '0', 'system', NOW(), '0', 'system';
-INSERT INTO `t_sys_menu` (`type`, `parent_id`, `path_ids`, `level`, `name`, `icon`, `code`, `url`, `target`, `permission_code`, `sort_index`, `status`, `deleted`, `create_time`, `creator_id`, `creator_name`, `modify_time`, `modifier_id`, `modifier_name`)
-	SELECT 'button', @parentId, @pathIds, 3, '修改', 'pencil', 'btn-${pathName}-update', '${moduleName}/${pathName}/update', 'window', '${moduleName}:${pathName}:update', '3', '1', '0', NOW(), '0', 'system', NOW(), '0', 'system';
-INSERT INTO `t_sys_menu` (`type`, `parent_id`, `path_ids`, `level`, `name`, `icon`, `code`, `url`, `target`, `permission_code`, `sort_index`, `status`, `deleted`, `create_time`, `creator_id`, `creator_name`, `modify_time`, `modifier_id`, `modifier_name`)
-	SELECT 'button', @parentId, @pathIds, 3, '删除', 'trash', 'btn-${pathName}-delete', '${moduleName}/${pathName}/delete', 'window', '${moduleName}:${pathName}:delete', '4', '1', '0', NOW(), '0', 'system', NOW(), '0', 'system';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '查看', null, '${moduleName}:${pathName}:list,${moduleName}:${pathName}:info', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '新增', null, '${moduleName}:${pathName}:save', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '修改', null, '${moduleName}:${pathName}:update', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '删除', null, '${moduleName}:${pathName}:delete', '2', null, '6';

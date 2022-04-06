@@ -1,4 +1,4 @@
-package com.ymyang.generator.utils;
+package org.example.generator.utils;
 
 /**
  * 自定义异常

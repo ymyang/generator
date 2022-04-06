@@ -1,18 +1,18 @@
-package ${package}.${moduleName}.param;
-
-#if(${hasBigDecimal})
-import java.math.BigDecimal;
-#end
-#if(${hasDate})
-import java.util.Date;
-#end
-
-import cn.gigahome.common.IBaseDto;
+package ${config.basePackageName}.param.${moduleName};
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.example.framework.common.PojoDuplicate;
+
+#if(${hasBigDecimal})
+#end
+#if(${hasLocalDateTime})
+#end
+#if(${hasLocalDate})
+#end
+#if(${hasLocalTime})
+#end
 
 /**
  * ${comments}
@@ -21,17 +21,21 @@ import lombok.NoArgsConstructor;
  * @email ${email}
  * @date ${datetime}
  */
-@Data
+@Getter
+@Setter
+@Builder
+@ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "${moduleName}.${className}QueryParam", description = "${comments}")
-public class ${className}QueryParam implements IBaseDto {
+public class ${className}QueryParam implements PojoDuplicate {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "当前页码", name = "pageIndex", example = "1")
+    @ApiModelProperty(value = "当前页码", example = "1")
     private int pageIndex = 1;
 
-    @ApiModelProperty(value = "每页数量", name = "pageSize", example = "20")
+    @ApiModelProperty(value = "每页数量", example = "20")
     private int pageSize = 20;
 
 #foreach ($column in $columns)
@@ -40,13 +44,13 @@ public class ${className}QueryParam implements IBaseDto {
      * $column.comments
      */
 #if($column.dataType == 'datetime' || $column.dataType == 'timestamp')
-    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01 09:01:01")
+    @ApiModelProperty(value = "$column.comments", example = "2019-01-01 09:01:01")
 #elseif($column.dataType == 'time')
-    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "09:01:01")
+    @ApiModelProperty(value = "$column.comments", example = "09:01:01")
 #elseif($column.dataType == 'date')
-    @ApiModelProperty(value = "$column.comments", name = "$column.attrname", example = "2019-01-01")
+    @ApiModelProperty(value = "$column.comments", example = "2019-01-01")
 #else
-    @ApiModelProperty(value = "$column.comments", name = "$column.attrname")
+    @ApiModelProperty(value = "$column.comments")
 #end
     private $column.attrType $column.attrname;
 
