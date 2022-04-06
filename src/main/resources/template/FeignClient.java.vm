@@ -1,0 +1,73 @@
+package ${config.basePackageName}.feign.${moduleName};
+
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
+
+import org.example.framework.common.ResponseEntity;
+
+import ${config.basePackageName}.param.${moduleName}.${className}QueryParam;
+import ${config.basePackageName}.param.${moduleName}.${className}CreateParam;
+import ${config.basePackageName}.param.${moduleName}.${className}UpdateParam;
+import ${config.basePackageName}.dto.${moduleName}.${className}Dto;
+import ${config.basePackageName}.feign.${moduleName}.hystrix.${className}FeignFallbackFactory;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@FeignClient(name = "${${config.applicationName}.application-name:${config.applicationName}}", path = "${${config.applicationName}.application-path:/}", fallbackFactory = ${className}FeignFallbackFactory.class)
+public interface  ${className}FeignClient {
+
+	/**
+     * ${comments}列表
+     *
+     * @return
+     */
+	@GetMapping("/${moduleName}/${pathName}")
+	ResponseEntity<Page<${className}Dto>> index(@SpringQueryMap ${className}QueryParam queryParam);
+
+
+	/**
+	 * ${comments}详情
+	 *
+	 * @param ${pk.attrname}
+	 * @return
+	 */
+	@GetMapping("/${moduleName}/${pathName}/{${pk.attrname}}")
+	ResponseEntity<${className}Dto> detail(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname});
+
+	/**
+	 * ${comments}新增
+	 *
+	 * @param createParam
+	 * @return
+	 */
+	@PostMapping("/${moduleName}/${pathName}")
+	ResponseEntity<${className}Dto> create(@RequestBody ${className}CreateParam createParam);
+
+	/**
+	 * ${comments}修改
+	 *
+	 * @param updateParam
+	 * @return
+	 */
+	@PutMapping("/${moduleName}/${pathName}")
+	ResponseEntity<${className}Dto> update(@RequestBody ${className}UpdateParam updateParam);
+
+	/**
+	 * ${comments}删除
+	 *
+	 * @param ${pk.attrname}s
+	 * @return
+	 */
+	@DeleteMapping("/${moduleName}/${pathName}")
+	ResponseEntity delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s);
+
+}
