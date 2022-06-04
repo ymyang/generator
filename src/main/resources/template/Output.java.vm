@@ -4,19 +4,19 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.example.framework.common.PojoDuplicate;
 
-#if(${hasLocalDateTime} || ${hasLocalDate})
-#end
 #if(${hasBigDecimal})
+import java.math.BigDecimal;
 #end
 #if(${hasLocalDateTime})
+import java.time.LocalDateTime;
 #end
 #if(${hasLocalDate})
+import java.time.LocalDate;
 #end
 #if(${hasLocalTime})
+import java.time.LocalTime;
 #end
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * ${comments}
@@ -25,9 +25,7 @@ import lombok.ToString;
  * @email ${email}
  * @date ${datetime}
  */
-@Getter
-@Setter
-@ToString
+@Data
 @ApiModel(value="${moduleName}.${className}Dto", description="${comments}")
 public class ${className}Dto implements PojoDuplicate {
 

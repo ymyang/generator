@@ -19,7 +19,7 @@ import java.time.LocalDate;
 #if(${hasLocalTime})
 import java.time.LocalTime;
 #end
-import lombok.*;
+import lombok.Data;
 
 import org.example.framework.common.PojoDuplicate;
 import org.example.framework.mybatisplus.BaseModel;
@@ -31,13 +31,8 @@ import org.example.framework.mybatisplus.BaseModel;
  * @email ${email}
  * @date ${datetime}
  */
+@Data
 @TableName(value = "${tableName}", autoResultMap = true)
-@Getter
-@Setter
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class ${className}Entity extends BaseModel<${className}Entity> implements PojoDuplicate {
 
 	private static final long serialVersionUID = 1L;

@@ -2,17 +2,21 @@ package ${config.basePackageName}.param.${moduleName};
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
 import org.example.framework.common.PojoDuplicate;
 
 #if(${hasBigDecimal})
+import java.math.BigDecimal;
 #end
 #if(${hasLocalDateTime})
+import java.time.LocalDateTime;
 #end
 #if(${hasLocalDate})
+import java.time.LocalDate;
 #end
 #if(${hasLocalTime})
+import java.time.LocalTime;
 #end
+import lombok.Data;
 
 /**
  * ${comments}
@@ -21,12 +25,7 @@ import org.example.framework.common.PojoDuplicate;
  * @email ${email}
  * @date ${datetime}
  */
-@Getter
-@Setter
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @ApiModel(value = "${moduleName}.${className}QueryParam", description = "${comments}")
 public class ${className}QueryParam implements PojoDuplicate {
 

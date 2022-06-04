@@ -2,20 +2,25 @@ package ${config.basePackageName}.param.${moduleName};
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import org.hibernate.validator.constraints.Length;
+
 import org.example.framework.common.PojoDuplicate;
 
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 #if(${hasBigDecimal})
+import java.math.BigDecimal;
 #end
 #if(${hasLocalDateTime})
+import java.time.LocalDateTime;
 #end
 #if(${hasLocalDate})
+import java.time.LocalDate;
 #end
 #if(${hasLocalTime})
+import java.time.LocalTime;
 #end
+import lombok.Data;
 
 /**
  * ${comments}
@@ -24,12 +29,7 @@ import javax.validation.constraints.NotNull;
  * @email ${email}
  * @date ${datetime}
  */
-@Getter
-@Setter
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @ApiModel(value = "${moduleName}.${className}CreateParam", description = "${comments}")
 public class ${className}CreateParam implements PojoDuplicate {
 
